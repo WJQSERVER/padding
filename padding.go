@@ -16,7 +16,7 @@ const (
 	// 4KB 是一个合理的大小，可以覆盖大多数头部长度需求
 	maxPaddingSize = 4096
 	// paddingCharset 是用于生成随机 padding 内容的字符集
-	paddingCharset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	paddingCharset = "X"
 )
 
 var (

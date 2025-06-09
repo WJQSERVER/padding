@@ -33,10 +33,8 @@ func ToukaPadding(opts PaddingOptions) httpc.MiddlewareFunc {
 	}
 
 	// 返回中间件函数
-	return func(next http.Handler) http.Handler {
-		// 返回一个 http.HandlerFunc，它实现了 http.Handler 接口
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			// --- 在发送请求前，修改请求 ---
+	return func(next http.RoundTripper) http.RoundTripper {
+		return httpc.RoundTripperFunc(func(req *http.Request) (*http.Response, error) {
 
 			// 计算随机的 padding 长度
 			paddingLen, err := randInt(opts.Profile.MinLength, opts.Profile.MaxLength)
@@ -46,17 +44,15 @@ func ToukaPadding(opts PaddingOptions) httpc.MiddlewareFunc {
 			} else if paddingLen > 0 {
 				// 从预计算的池中获取随机内容
 				paddingData := getPaddingSlice(paddingLen)
-				// 设置 padding 头部到出站请求 `r`
-				// r.Header 是一个引用，可以直接修改
-				if r.Header == nil {
-					r.Header = make(http.Header)
+				// 设置 padding 头部到出站请求 `req`
+				// req.Header 是一个引用，可以直接修改
+				if req.Header == nil {
+					req.Header = make(http.Header)
 				}
-				r.Header.Set(opts.HeaderName, string(paddingData))
+				req.Header.Set(opts.HeaderName, string(paddingData))
 			}
 
-			// 调用链中的下一个处理器。
-			// 在 httpc 中，最终的 `next` 是一个将请求发送出去的处理器。
-			next.ServeHTTP(w, r)
+			return next.RoundTrip(req)
 		})
 	}
 }

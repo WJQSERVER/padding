@@ -3,7 +3,7 @@ module github.com/fenthope/padding
 go 1.24.4
 
 require (
-	github.com/WJQSERVER-STUDIO/httpc v0.5.1
+	github.com/WJQSERVER-STUDIO/httpc v0.6.0
 	github.com/infinite-iroha/touka v0.1.0
 )
 
