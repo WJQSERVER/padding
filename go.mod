@@ -4,7 +4,7 @@ go 1.24.4
 
 require (
 	github.com/WJQSERVER-STUDIO/httpc v0.8.0
-	github.com/infinite-iroha/touka v0.2.8
+	github.com/infinite-iroha/touka v0.3.0
 )
 
 require (
